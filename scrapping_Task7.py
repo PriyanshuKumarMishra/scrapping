@@ -1,14 +1,21 @@
 import json
-lang_list,osm=[],[]
-op=open('scrp.json')
-file=json.load(op)
-for i in file:
-    if i["director"] not in osm:
-        osm.append(i["director"])
-        lang_list.extend(i["director"])
-for k in lang_list:
-    count=0
-    for i in file:
-        if k in i["director"]:
-            count+=1   
-    print(k,'=',count)
+from pprint import pprint
+
+files = open("task5_data.json", "r")
+load_of_json = json.load(files)
+files.close()
+
+def analyse_movies_directors(movies):
+    list1 = []
+    for i in movies:
+        for j in i["director"]:
+            list1.append(j)
+            temp = set(list1)
+            director_dict = {}
+            for k in temp:
+                director_dict[k] = list1.count(k)
+    json_files = open("task7_data.json", "w")
+    json.dump(director_dict, json_files, indent = 4)
+    json_files.close()
+    return director_dict
+task7 = analyse_movies_directors(load_of_json)
